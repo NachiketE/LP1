@@ -1,0 +1,252 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+% \usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{changepage}
+\graphicspath{ {images/} }
+\usepackage[a4paper,left=1.5in,right=1in,top=1in,bottom=1in]{geometry}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,fit,arrows}
+\definecolor{myblue}{RGB}{56,94,141}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+%\apptocmd{\thebibliography}{\csname phantomsection \endcsname \addtocontentsline{toc}{chapter}{\bibname}}{}{}
+\usepackage{caption}
+\usepackage{float}
+\floatstyle{boxed} 
+\restylefloat{figure}
+\pagestyle{fancy}
+\fancyhf{}
+% \fancyhead[LE,RO]{\footnotesize \center }
+% \fancyfoot[CE,CO]{ \raggedright{\fontfamily{cmr}\select P:F-SMR-UG/08/R0}}
+\fancyfoot[LE,RO]{\thepage}
+\def\eg{\textit{e.g.}~}
+\def\ie{\textit{i.e.}~}
+\def\Eg{\textit{E.g.}~}
+\def\etal{\textit{et al.}~}
+\def\etc{\textit{etc.}~}
+\def\ci#1{\textcircled{\resizebox{.4em}{!}{#1}}}
+\renewcommand{\baselinestretch}{1}
+
+\newcommand{\thr}[1]{\rotatebox[origin=c]{90}{#1}}
+\newcommand{\tht}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\newcommand{\red}[1]{\textcolor{blue}{#1}}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+% \setsansfont{arial.ttf}
+\usepackage[nottoc]{tocbibind} %Adds "References" to the table of contents
+\begin{document}
+ 
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \large
+                \textbf{\MakeUppercase{Pune Institute of Computer Technology}}
+                \linebreak
+        \textbf{\MakeUppercase{Dhankawadi, Pune}}
+        \vspace{0.5cm}
+                        \linebreak
+                        \linebreak
+        \MakeUppercase{Data Analytics Mini-Project REPORT }
+        \linebreak
+        ON
+        \linebreak
+        \vspace{0.5cm}
+        \large
+        \\
+        \textbf{\MakeUppercase{“TRIP HISTORY ANALYSIS​ ”}}
+        \linebreak
+        
+        %\vspace{0.2cm}
+        \textbf{SUBMITTED BY}
+        \vspace{1cm}
+        
+        \begin{center}
+        \begin{tabular}{ c c }
+         Nachiket Erlekar & 41434 \\ 
+         Ashay Koradia & 41429 
+        \end{tabular}
+        \end{center}
+                
+        \textbf{\large{Under the guidance of}}
+        \linebreak
+        Prof. Deepali Kadam
+        \linebreak
+      %  \vfill
+        
+        
+        
+        \vspace{0.8cm}
+        
+
+        \includegraphics[scale=0.6]{pict.eps}   
+        
+        \Large
+        DEPARTMENT OF COMPUTER ENGINEERING\\
+%        \textbf{Pune Institute of Computer Technology}    
+%        \textbf{Dhankawadi, Pune}
+%        \linebreak
+        \textbf{Academic Year 2020-21}
+        
+    \end{center}
+\end{titlepage}
+\pagebreak
+
+\newpage
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+\begin{center}
+    \section{Problem Statement}
+\end{center}
+\par Use trip history dataset that is from a bike sharing service in the United States. The data is provided quarter-wise from 2010 (Q4) onwards. Each file has 7 columns. Predict the class of user.
+
+\par Make use of at least two classification algorithms and provide comparative
+analysis.
+
+\newpage
+\begin{center}
+    \section{Abstract}
+\end{center}
+Data Analytics is the process of analyzing data and drawing conclusion from it. One such dataset is the trip history of capital bikeshares, which logs the travel history of its riders.
+The dataset is available for each quarter after 2010. We select the first quarter of 2017 for our analysis. The main goal is predict the class of the user as Member or Casual. We inspect various algorithms to achieve this goal and compare their performance.
+
+\newpage
+\begin{center}
+    \section{Hardware and Software Requirements}
+\end{center}
+\subsection{Hardware Requirements}
+\begin{enumerate}
+    \item 500 GB HDD
+    \item 4GB RAM
+    \item Monitor
+    \item Keyboard
+\end{enumerate}
+
+\subsection{Software Requirements}
+\begin{enumerate}
+    \item 64 bit Open Source Operating System like Ubuntu 18.04
+    \item Python 3
+    \item Google Colab
+    \item Different Libraries
+    \item Libararies like sklearn, pandas, matplotlib
+\end{enumerate}
+\pagenumbering{arabic}
+\newpage
+\begin{center}
+\section{INTRODUCTION}
+\end{center}
+\hspace{1cm}
+\par
+The data includes:
+\begin{enumerate}
+    \item Duration – Duration of trip
+    \item Start Date – Includes start date and time
+    \item End Date – Includes end date and time
+    \item Start Station – Includes starting station name and number
+    \item End Station – Includes ending station name and number
+    \item Bike Number – Includes ID number of bike used for the trip
+    \item Member Type – Indicates whether user was a "registered" member (Annual Member, 30-Day Member or Day Key Member) or a "casual" rider (Single Trip, 24-Hour Pass, 3-Day Pass or 5-Day Pass)
+\end{enumerate}
+
+This data has been processed to remove trips that are taken by staff as they service and inspect the system, trips that are taken to/from any of “test” stations at warehouses and any trips lasting less than 60 seconds (potentially false starts or users trying to re-dock a bike to ensure it's secure).
+
+We first preprocess the data. The Data fields are  used to extract year, month, day, hour, week, minute and second. We add this as features to our dataset. Out of this we keep only month and hour field as rest fields have a uniform distribution across entire dataset.
+
+We perform one hot encoding of the remaing data fields and use Random Forest Classifier with default parameters as our classificaton algorithm. We use train test split of 60-40  and report a classification accuracy of 90 \%.
+
+
+
+\newpage
+\begin{center}
+\section{OBJECTIVE}
+\end{center}
+\begin{itemize}
+    \item To analyse trip history dataset
+    \item To predict the class of the user from given dataset..
+\end{itemize}
+
+
+\newpage
+\begin{center}
+\section{Scope}
+\end{center}
+
+We select only the 2010 file of records for our analysis. This is because the size of whole dataset makes it difficult to run the model on limited memory, currently we are making use of 115,000 records on the datasets to make our  models work.
+
+\newpage
+\begin{center}
+    \section{System Architecture}
+\end{center}
+\par
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.71]{DA-SA.jpg}
+    \caption{System Architecture}
+\end{figure}
+
+
+% \newpage
+% \begin{center}
+% \section{Test Cases}
+% \end{center}
+
+\newpage
+\begin{center}
+\section{Result}
+\end{center}
+\par 
+The Cross Validation Scores for Various models are:
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+         Model & Cross-Validation Score \\
+    \hline
+         DecisionTree & 0.7924939083293684\\
+    \hline
+    RandomForest & 0.8701789293077843\\
+    \hline
+    GradientBoostingClassifier & 0.8647865392101735\\
+    \hline
+    XGBoost & 0.8642098129965253\\
+    \hline
+    KNeighborsClassifier & 0.8464033911501363 \\
+    \hline
+    GaussianNB & 0.8398503395475583 \\
+    \hline
+    SVC & 0.8501232752281673 \\
+    \hline
+    LinearSVC & 0.8334054241100394 \\
+    \hline
+    \end{tabular}
+    \caption{Cross Validation Scores for vaious Models}
+\end{table}
+\par We see that Random Forest Classifier gives the best score. We then use this model to perform training and testing of the model. After training, the model gives an accuracy of 87 \%.
+\newpage
+\begin{center}
+\section{Conclusion}
+\end{center}
+We presented classification of trip hsitory dataset to predict the clas of user using Random Forest Classifier. We report an classification accuracy of 87\%.
+\newpage
+\begin{thebibliography}{1}
+\bibitem{dataset}
+    \texttt{https://www.capitalbikeshare.com/system-data}
+\bibitem{sklearn}
+    \texttt{https://scikit-learn.org/stable/modules/generated/\\sklearn.ensemble.RandomForestClassifier.html}
+\end{thebibliography}
+\end{document}

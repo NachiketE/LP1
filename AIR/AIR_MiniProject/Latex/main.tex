@@ -1,0 +1,253 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+% \usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{changepage}
+\graphicspath{ {images/} }
+\usepackage[a4paper,left=1.5in,right=1in,top=1in,bottom=1in]{geometry}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,fit,arrows}
+\definecolor{myblue}{RGB}{56,94,141}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+%\apptocmd{\thebibliography}{\csname phantomsection \endcsname \addtocontentsline{toc}{chapter}{\bibname}}{}{}
+\usepackage{caption}
+\usepackage{float}
+\floatstyle{boxed} 
+\restylefloat{figure}
+\pagestyle{fancy}
+\fancyhf{}
+% \fancyhead[LE,RO]{\footnotesize \center }
+% \fancyfoot[CE,CO]{ \raggedright{\fontfamily{cmr}\select P:F-SMR-UG/08/R0}}
+\fancyfoot[LE,RO]{\thepage}
+\def\eg{\textit{e.g.}~}
+\def\ie{\textit{i.e.}~}
+\def\Eg{\textit{E.g.}~}
+\def\etal{\textit{et al.}~}
+\def\etc{\textit{etc.}~}
+\def\ci#1{\textcircled{\resizebox{.4em}{!}{#1}}}
+\renewcommand{\baselinestretch}{1}
+
+\newcommand{\thr}[1]{\rotatebox[origin=c]{90}{#1}}
+\newcommand{\tht}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\newcommand{\red}[1]{\textcolor{blue}{#1}}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+% \setsansfont{arial.ttf}
+\usepackage{algorithm} 
+\usepackage{algpseudocode} 
+
+\usepackage[nottoc]{tocbibind} %Adds "References" to the table of contents
+
+
+\begin{document}
+ 
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \large
+                \textbf{\MakeUppercase{Pune Institute of Computer Technology}}
+                \linebreak
+        \textbf{\MakeUppercase{Dhankawadi, Pune}}
+        \vspace{0.5cm}
+                        \linebreak
+                        \linebreak
+        \MakeUppercase{Artificial Intelligence & Robotics Mini-Project REPORT }
+        \linebreak
+        ON
+        \linebreak
+        \vspace{0.5cm}
+        \large
+        \\
+        \textbf{\MakeUppercase{“Tic Tac Toe game using MiniMax Algorithm”}}
+        \linebreak
+        
+        %\vspace{0.2cm}
+        \textbf{SUBMITTED BY}
+        \vspace{1cm}
+        
+        \begin{center}
+        \begin{tabular}{ c c }
+         Nachiket Erlekar & 41434 \\ 
+         Ashay Koradia & 41429
+        \end{tabular}
+        \end{center}
+                
+        \textbf{\large{Under the guidance of}}
+        \linebreak
+        Prof. Deepali Kadam
+        \linebreak
+      %  \vfill
+        
+        
+        
+        \vspace{0.8cm}
+        
+
+        \includegraphics[scale=0.6]{pict.eps}   
+        
+        \Large
+        DEPARTMENT OF COMPUTER ENGINEERING\\
+%        \textbf{Pune Institute of Computer Technology}    
+%        \textbf{Dhankawadi, Pune}
+%        \linebreak
+        \textbf{Academic Year 2020-21}
+        
+    \end{center}
+\end{titlepage}
+\pagebreak
+
+\newpage
+\tableofcontents
+
+\newpage
+\pagenumbering{arabic}
+\begin{center}
+    \section{Problem Statement}
+    Creating an AI agent in python that plays the classic Tic Tac Toe game to beat a human game.
+
+\end{center}
+
+
+\newpage
+\begin{center}
+    \section{Abstract}
+\end{center}
+
+In this Project we deduce a mathematical technique to define the winning game Tic-Tac-Toe for an AI. The results were placed in a 3x3 matrix and initial conversions were performed on the rows to find all possible win states. Programming languages were used to find the matrix to determine the diagonal wins. A simulation algorithm is presented to predict the win, or draw of a game by knowing the first move of a player. The game of Tic-Tac-Toe is simulated by using a Min-max algorithm.
+
+\newpage
+\begin{center}
+\section{Harware and Software Requirements}
+\end{center}
+\par
+\begin{enumerate}
+    \item Operating system: 64 bit linux operating system- ubuntu or a Windows operating system
+
+    \item Ram: 4GB ram is recommended
+
+    \item HDD: 50GB hard drive space is recommended
+
+    \item Tools/Softwares: Python / Python2 / Python3(recommended)
+
+\end{enumerate}
+\newpage
+\begin{center}
+\section{INTRODUCTION}
+\end{center}
+\hspace{1cm}
+\par
+Tic-tac-toe, noughts and crosses, or Xs and Os, is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid. The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner. It is a solved game with a forced draw assuming best play from both players.
+\par
+We will improve the simple computer AI plying at random with an AI agent that takes in case the opponents moves and then play the best possible move to win .We will create an unbeatable AI that plays the classic Tic Tac Toe game. This AI will consider all possible scenarios and make the most optimal move at each step.
+\par
+ In order to solve for the best move the AI makes use of the MiniMax Algorithm. Minimax is a recursive algorithm which is used to choose an optimal move for a player assuming that the opponent is also playing optimally. As its name suggests, its goal is to minimize the maximum loss (minimize the worst case scenario).
+\par
+ MiniMax algorithm is a human representation of predicting what an opponent will play as a consequence of their move. 
+\\
+\\
+\subsection{Algorithm}
+A Minimax algorithm can be best defined as a recursive function that does the following things:
+\item 1. return a value if a terminal state is found (+1, 0, -1)
+\item 2. go through available spots on the board
+
+\item 3. call the minimax function on each available spot (recursion)
+
+\item 4. evaluate returning values from function calls
+
+\item 5. and return the best value
+
+  
+
+
+\newpage
+\begin{center}
+\section{OBJECTIVE}
+\end{center}
+\begin{itemize}
+    \item To Build an agent that can play against humans, making the most optimal move at each step by considering all possible predictions of the opponent's moves.
+
+    \item Learn to implement the MiniMax algorithm in Game Theory to the classic Tic Tac Toe game.
+	
+
+\end{itemize}
+
+
+\newpage
+\begin{center}
+\section{Scope}
+\end{center}
+\item 1. For future research study, this game algorithm can be extended to simulate other complicated games like chess and checkers However, in case of chess there are 64 squares with two players. This leads to several possibilities.
+\item 2. We can add more to the graphics and add a better Graphical User Interface for the player
+\item 3. Same algorithm can be implemented to a two player Bingo Game to build an AI agent.
+
+
+\newpage
+\begin{center}
+    \section{System Architecture}
+\end{center}
+    \par
+        \centering
+        \includegraphics{SA.jpeg}
+        \caption{System Arcitecture}
+
+\newpage
+\begin{center}
+\section{Test Cases}
+\end{center}
+\subsection{Test Case 1}
+         
+        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{TC1.jpeg}
+        \\
+        \\
+        Final Consequences: X Wins in 2 cases and Y Wins in 2 cases
+
+\subsection{Test Case 2}
+
+        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{TC2.jpeg}
+        \\
+        \\
+        Final Consequences: The game can be won by O or the game will be utmost a draw.
+
+\newpage
+\begin{center}
+\section{Result}
+\end{center}
+ In the Tic Tac Toe game there can be a win (+1) lose(-1) or draw(0)
+
+ In the first case x can win in two possibilities and y can win in two possibilities
+
+ In the second case either the game can be won by O or the game will be utmost a draw.
+
+\newpage
+\begin{center}
+\section{Conclusion}
+\end{center}
+The Project aims at deducing an intelligent mathematical technique for playing a winning game in Tic-Tac-Toe game. Also, to distort the results into a 3x3 matrix we performed an elementary row operation on the results to establish all possible wins.
+\par
+	We depicted the MiniMax algorithm to predict the win cases or draw cases of the Tic-Tac-Toe game the algorithm is implemented in Python using min max algorithm. The concept of graph theory or combinatorial game theory is utilized to implement this game. 
+\par
+This algorithm calculates only one step ahead using a min-max algorithm In an ideal scenario, a player must calculate all the possibilities to ensure the success Tic-Tac-Toe is a small game hence an unbeatable algorithm can be developed because the state space tree generated will be small .
+
+\newpage
+\begin{thebibliography}{1}
+\bibitem{wikipedia}
+\textTic { Elvis Donkoh, Rebecca Davis, Emmanuel D.J Owusu-Ansah, A. Emmanuel Antwi, Michael Mensah, Application of combinatorial techniques to the Ghanaian Board Game Zaminamina Draft, European Journal of Pure and Applied Mathematics, Vol. 12, No. 1, 2019.}
+
+\bibitem{book}
+\textTic {Tac Toe - Creating Unbeatable AI - An Introduction to Minimax Algorithm, Online Available at: https://towardsdatascience.com/tic-tac-toe-creating-unbeatable-ai-with-minimax-algorithm-8af9e52c1e7d}
+\end{thebibliography}
+\end{document}
